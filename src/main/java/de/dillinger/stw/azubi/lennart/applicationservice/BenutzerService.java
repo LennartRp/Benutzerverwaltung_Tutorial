@@ -17,13 +17,35 @@ import de.dillinger.stw.azubi.lennart.domain.valueobject.Benutzer;
 
 public class BenutzerService
 {
-    File speichernBenutzer = new File("C:\\Users\\di39258\\speichernBenutzer.txt");
+
+    public static final String DATEI = "target/benutzerVerwaltung.txt";
+
+    private File benutzerVerwaltung;
     private final Gson gson;
 
     public BenutzerService()
     {
         final GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
+        benutzerVerwaltung = erzeugeDatei();
+    }
+
+    private File erzeugeDatei()
+    {
+        File file = new File(DATEI);
+
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Die Datei konnte nicht erzeugt werden");
+
+                throw new IllegalStateException(e);
+            }
+        }
+
+        return file;
     }
 
     public void legeBenutzerAn(Benutzer benutzer)
@@ -33,7 +55,7 @@ public class BenutzerService
 
         try
         {
-            meinWriter = new PrintWriter(new BufferedWriter(new FileWriter(speichernBenutzer)));
+            meinWriter = new PrintWriter(new BufferedWriter(new FileWriter(benutzerVerwaltung)));
             meinWriter.println(gsonString);
         }
         catch (IOException e)
@@ -49,18 +71,29 @@ public class BenutzerService
 
     }
 
-    public void sucheBenutzer(Benutzer benutzer)
+    public Benutzer sucheBenutzer(String vorname, String nachname)
     {
         try
         {
-            BufferedReader bReader =  new BufferedReader(new FileReader(speichernBenutzer));
-            String gsonString = gson.toJson(benutzer);
-            
+            BufferedReader bReader =  new BufferedReader(new FileReader(benutzerVerwaltung));
+            String line = bReader.readLine();
+            while (line!=null)
+            {
+               Benutzer gelesenerBenutzer = gson.fromJson(line, Benutzer.class);
+               if(gelesenerBenutzer.getVorName().equals(vorname) && gelesenerBenutzer.getName().equals(nachname))
+               {
+                   return gelesenerBenutzer;
+               }
+                line = bReader.readLine();
+            }
         }
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
 
     }
     public void loescheBenutzer()

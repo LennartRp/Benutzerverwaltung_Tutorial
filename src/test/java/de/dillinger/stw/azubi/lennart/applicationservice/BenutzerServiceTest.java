@@ -18,7 +18,7 @@ class BenutzerServiceTest
 {
 
     @org.junit.jupiter.api.Test
-    void testLegeBenutzerAn() throws IOException
+    void testLegeBenutzerAn()
     {
         //Arrange
         BenutzerService benutzerService = new BenutzerService();
@@ -29,21 +29,32 @@ class BenutzerServiceTest
         //Act
         benutzerService.legeBenutzerAn(benutzer);
        //Assert
-        BufferedReader meinReader = null;
-        File speichernBenutzer = new File("C:\\Users\\di39258\\speichernBenutzer.txt");
-        FileReader fileReader = null;
 
-        fileReader = new FileReader(speichernBenutzer);
-        meinReader = new BufferedReader(fileReader);
+        //gelesenerBenutzer = benutzerService.sucheBenutzer(benutzer.getVorName(), benutzer.getName());
 
-            String line = meinReader.readLine();
+        try
+        {
+            File file = new File(BenutzerService.DATEI);
+            BufferedReader bReader =  new BufferedReader(new FileReader(file));
+            String line = bReader.readLine();
             while (line!=null)
             {
-               gelesenerBenutzer = gson.fromJson(line, Benutzer.class);
+                Benutzer benutzer1 = gson.fromJson(line, Benutzer.class);
+                if(benutzer1.getVorName().equals(benutzer.getVorName()) && benutzer1.getName().equals(benutzer.getName()))
+                {
+                    gelesenerBenutzer = benutzer1;
+                }
+                line = bReader.readLine();
             }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(benutzer,gelesenerBenutzer);
-
 
     }
 }
