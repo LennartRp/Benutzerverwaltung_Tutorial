@@ -1,8 +1,11 @@
 package de.dillinger.stw.azubi.lennart.applicationservice;
 
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +29,7 @@ public class BenutzerService
     public void legeBenutzerAn(Benutzer benutzer)
     {
        String gsonString = gson.toJson(benutzer);
-        PrintWriter meinWriter = null;
+       PrintWriter meinWriter = null;
 
         try
         {
@@ -46,6 +49,20 @@ public class BenutzerService
 
     }
 
+    public void sucheBenutzer(Benutzer benutzer)
+    {
+        try
+        {
+            BufferedReader bReader =  new BufferedReader(new FileReader(speichernBenutzer));
+            String gsonString = gson.toJson(benutzer);
+            
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
     public void loescheBenutzer()
     {
 
@@ -56,9 +73,6 @@ public class BenutzerService
 
     }
 
-    public void sucheBenutzer()
-    {
 
-    }
 
 }
