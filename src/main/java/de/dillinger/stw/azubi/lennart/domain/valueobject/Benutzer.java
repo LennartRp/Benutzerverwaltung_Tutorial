@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Benutzer
 {
-    private final String name;
-    private final String vorName;
-    private final String email;
+    private String name;
+    private String vorName;
+    private String email;
 
     public Benutzer(String name, String vorName, String email)
     {
@@ -18,6 +18,20 @@ public class Benutzer
     public String getName()
     {
         return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setVorName(String vorName)
+    {
+        this.vorName = vorName;
+    }
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 
     public String getVorName()

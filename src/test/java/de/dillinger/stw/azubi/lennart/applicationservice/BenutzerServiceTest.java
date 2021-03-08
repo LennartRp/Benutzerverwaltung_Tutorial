@@ -50,7 +50,8 @@ class BenutzerServiceTest
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -96,16 +96,60 @@ public class BenutzerService
         return null;
 
     }
-    public void loescheBenutzer()
+
+    public void loescheBenutzer(String vorname, String nachname, String email)
     {
+        try
+        {
+            BufferedReader bReader =  new BufferedReader(new FileReader(benutzerVerwaltung));
+            String line = bReader.readLine();
+            while (line!=null)
+            {
+                Benutzer gelesenerBenutzer = gson.fromJson(line, Benutzer.class);
+                if(gelesenerBenutzer.getVorName().equals(vorname) && gelesenerBenutzer.getName().equals(nachname))
+                {
+                    StringBuffer geleseneLine = new StringBuffer(line);
+
+                    geleseneLine.delete(0, line.length()-1);
+                }
+                line = bReader.readLine();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void benutzerAendern()
+    public void benutzerAendern(String vorname, String nachname, String email)
     {
+        try
+        {
+            BufferedReader bReader =  new BufferedReader(new FileReader(benutzerVerwaltung));
+            String line = bReader.readLine();
+            while (line!=null)
+            {
+                Benutzer gelesenerBenutzer = gson.fromJson(line, Benutzer.class);
+                if(gelesenerBenutzer.getVorName().equals(vorname) && gelesenerBenutzer.getName().equals(nachname))
+                {
+                    gelesenerBenutzer.setName(nachname);
+                    gelesenerBenutzer.setVorName(vorname);
+                    gelesenerBenutzer.setEmail(email);
+                }
+                line = bReader.readLine();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-
 
 
 }
